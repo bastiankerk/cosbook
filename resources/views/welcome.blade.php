@@ -20,44 +20,45 @@
     <div class="col-xs-12 col-lg-4">
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>
-            <form action="../../index2.html" method="post">
+            <form method="POST" action="{{ route('login.custom') }}">
+                @csrf
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email">
+                    <input id="email" type="email" placeholder="Email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    @if ($errors->has('email'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input id="password" type="password" placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                </div>
-                <div class="form-group">
-                    <select class="form-control">
-                        <option value="" selected disabled>How did you hear about us</option>
-                        <option>Discord Channel</option>
-                        <option>Facebook</option>
-                        <option>From a Friend</option>
-                        <option>Instagram</option>
-                        <option>Twitch</option>
-                    </select>
+                    @if ($errors->has('password'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
                         <div class="checkbox icheck">
                             <label>
-                                <input type="checkbox"> Remember Me
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
                             </label>
                         </div>
                     </div>
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Login') }}</button>
                     </div>
                 </div>
             </form>
 
-            <div class="social-auth-links text-center">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fab fa-facebook"></i> Sign in using Facebook</a>
-                <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fab fa-google-plus"></i> Sign in using Google+</a>
-            </div>
+            {{--<div class="social-auth-links text-center">--}}
+                {{--<p>- OR -</p>--}}
+                {{--<a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fab fa-facebook"></i> Sign in using Facebook</a>--}}
+                {{--<a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fab fa-google-plus"></i> Sign in using Google+</a>--}}
+            {{--</div>--}}
             <a href="#">I forgot my password</a><br>
         </div>
     </div>
@@ -90,18 +91,49 @@
         <div class="register-box-body">
             <p class="login-box-msg">Register a new membership</p>
 
-            <form action="../../index.html" method="post">
+            <form method="POST" action="{{ route('register') }}">
+                @csrf
                 <div class="form-group has-feedback">
-                    <input type="email" class="form-control" placeholder="Email">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <input id="user_name" type="text" placeholder="Username" class="form-control{{ $errors->has('user_name') ? ' is-invalid' : '' }}" name="user_name" value="{{ old('user_name') }}" required autofocus>
+                    <span class="glyphicon glyphicon glyphicon-user form-control-feedback"></span>
+                    @if ($errors->has('user_name'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('user_name') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input id="email" type="email" placeholder="Email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    @if ($errors->has('email'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('email') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback">
+
+                    <input id="password" type="password" placeholder="Password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    @if ($errors->has('password'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('password') }}</strong>
+                        </span>
+                    @endif
+                </div>
+                <div class="form-group has-feedback">
+                    <input id="password-confirm" type="password" placeholder="Password repeat" class="form-control" name="password_confirmation" required>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
-                <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Retype password">
-                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                <div class="form-group">
+                    <select class="form-control" name="register_reason">
+                        <option value="" selected disabled>How did you hear about us?</option>
+                        <option value="Discord">Discord Channel</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Friend">From a Friend</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Twitch">Twitch</option>
+                    </select>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
@@ -112,16 +144,10 @@
                         </div>
                     </div>
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">{{ __('Register') }}</button>
                     </div>
                 </div>
             </form>
-
-            <div class="social-auth-links text-center">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa-xs fab fa-facebook"></i> Sign up using Facebook</a>
-                <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa-xs fab fa-google-plus"></i> Sign up using Google+</a>
-            </div>
 
             <a href="login.html" class="text-center">I already have a membership</a>
         </div>
@@ -158,7 +184,7 @@
         }
         .login-page {
             background: url("/img/background.jpg") no-repeat;
-            background-size: contain;
+            background-size: cover;
         }
     </style>
 
