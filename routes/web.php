@@ -25,9 +25,12 @@ Route::post('/login/custom', [
     'as' => 'login.custom'
 ]);
 
+Route::get('users/{user}',  ['as' => 'users.edit', 'uses' => 'UserController@edit']);
+Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'UserController@update']);
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', function () {
-        return view('home');
+        return view('home', ['user' => \Auth::user()]);
     })->name('home');
     Route::get('/dashboard', function () {
         return view('dashboard');

@@ -43,4 +43,9 @@ class User extends Authenticatable
         return false;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
 }
