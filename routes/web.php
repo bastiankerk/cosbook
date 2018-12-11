@@ -25,8 +25,9 @@ Route::post('/login/custom', [
     'as' => 'login.custom'
 ]);
 
-Route::get('users/{user}',  ['as' => 'users.edit', 'uses' => 'UserController@edit']);
-Route::patch('users/{user}/update',  ['as' => 'users.update', 'uses' => 'UserController@update']);
+Route::post('users/{user}',  ['as' => 'users.edit', 'uses' => 'UserController@edit']);
+Route::post('users/{user}/update',  ['as' => 'users.update', 'uses' => 'UserController@update']);
+
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', function () {
@@ -35,4 +36,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+
 });

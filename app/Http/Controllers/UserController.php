@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 use App\User;
 
 class UserController extends Controller
@@ -13,18 +16,24 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function edit(User $user)
+    public function edit(Request $request)
     {
         $user = Auth::user();
-        return view('users.edit', compact('user'));
+        $this->update($user);
+
+        return view('home', compact('user'));
     }
 
     public function update(User $user)
     {
-        $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed'
+
+        $request = request();
+
+        $validatedData = $request->validate([
+            'user_name' => 'required',
+            'email' => 'required|email',
+            'fname' => 'required',
+            'name' => 'required'
         ]);
 
         $user->user_name = request('user_name');
@@ -35,6 +44,22 @@ class UserController extends Controller
 
         $user->save();
 
-        return back();
+//        return back();
     }
+
+//    public function update(Request $request, User $user)
+//    {
+//        $data = $request->validate(
+//            [
+//                'user_name' => 'required',
+//                'email' => 'required|email|unique:users',
+//                'fname' => 'required',
+//                'name' => 'required',
+//                ]
+//        );
+//
+//        dd($user);
+//
+//        $user->update($data);
+//    }
 }

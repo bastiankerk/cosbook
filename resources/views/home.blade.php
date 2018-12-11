@@ -320,9 +320,8 @@
                             <!-- /.tab-pane -->
 
                             <div class="active tab-pane" id="settings">
-                                    <form method="POST" action="route('users.edit', $user)" class="form-horizontal" enctype="multipart/form-data">
+                                    <form method="POST" action="{{ route('users.edit', $user)}}" class="form-horizontal" enctype="multipart/form-data">
                                         {{ csrf_field() }}
-                                        {{ method_field('patch') }}
                                     <div class="form-group">
                                         <label for="exampleInputFile" class="col-sm-2 control-label">Profile Picture</label>
 
@@ -330,30 +329,43 @@
                                             <input type="file" id="exampleInputFile">
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->first('email')) has-error @endif">
                                         <label for="inputEmail" class="col-sm-2 control-label">Email</label>
 
                                         <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email" value="{{$user->email}}">
+                                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" value="{{$user->email}}">
+                                            @if($errors->first('email'))
+                                                <span class="help-block">{{$errors->first('email')}}</span>
+                                            @endif
                                         </div>
+
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->first('user_name')) has-error @endif">
                                         <label for="userName" class="col-sm-2 control-label">Username</label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="userName" placeholder="User Name" value="{{$user->user_name}}">
+                                            <input type="text" class="form-control" name="user_name" id="userName" placeholder="User Name" value="{{$user->user_name}}">
+                                            @if($errors->first('user_name'))
+                                                <span class="help-block">{{$errors->first('user_name')}}</span>
+                                            @endif
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->first('fname')) has-error @endif">
                                         <label for="inputFName" class="col-sm-2 control-label">First Name</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputFName" placeholder="First Name" value="{{$user->fname}}">
+                                            <input type="text" class="form-control" name="fname" id="inputFName" placeholder="First Name" value="{{$user->fname}}">
+                                            @if($errors->first('fname'))
+                                                <span class="help-block">{{$errors->first('fname')}}</span>
+                                            @endif
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group @if($errors->first('name')) has-error @endif">
                                         <label for="userName" class="col-sm-2 control-label">Name</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputName" placeholder="Name" value="{{$user->name}}">
+                                            <input type="text" class="form-control" name="name" id="inputName" placeholder="Name" value="{{$user->name}}">
+                                            @if($errors->first('name'))
+                                                <span class="help-block">{{$errors->first('name')}}</span>
+                                            @endif
                                         </div>
                                     </div>
 
